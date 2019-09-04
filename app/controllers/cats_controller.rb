@@ -15,6 +15,7 @@ class CatsController < ApplicationController
   end
 
   def create
+    owner 
     @cat = Cat.new(cat_params)
     if @cat.save
       redirect_to cat_url(@cat)
