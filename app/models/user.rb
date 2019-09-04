@@ -1,5 +1,10 @@
 class User < ApplicationRecord
 
+  has_many :cats, 
+    foreign_key: :user_id, 
+    class_name: :User  
+
+
   validates :user_name, presence: true
   validates :password_digest, presence: true 
   validates :session_token, presence: true, uniqueness: true 

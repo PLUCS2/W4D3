@@ -1,4 +1,13 @@
 class SessionsController < ApplicationController
+  before_action :new , only: [:no_relogin]
+
+  def no_relogin 
+    if logged_in? 
+      redirect_to cats_url
+    end
+
+  end
+
 
   def new
     render :new

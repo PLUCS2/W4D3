@@ -3,6 +3,10 @@ require 'action_view'
 class Cat < ApplicationRecord
   include ActionView::Helpers::DateHelper
 
+  belongs_to :owner, 
+    foreign_key: :user_id, 
+    class_name: :User  
+
   # .freeze renders a constant immutable.
   CAT_COLORS = %w(black white orange brown).freeze
 
@@ -20,4 +24,7 @@ class Cat < ApplicationRecord
   def age
     time_ago_in_words(birth_date)
   end
+
+
+
 end

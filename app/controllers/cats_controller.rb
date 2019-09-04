@@ -26,17 +26,34 @@ class CatsController < ApplicationController
 
   def edit
     @cat = Cat.find(params[:id])
-    render :edit
+    if @cat.owner == current_user
+      render :edit
+    else 
+      flash[:errors] = ["you do not own this cat"]
+        redirect_to cat_url(@cat)
+    end
+
   end
 
   def update
     @cat = Cat.find(params[:id])
-    if @cat.update_attributes(cat_params)
-      redirect_to cat_url(@cat)
+    if @cat.owner == current_user 
+      if @cat.update_attributes(cat_params)
+        redirect_to cat_url(@cat)
+      else
+        flash.now[:errors] = @cat.errors.full_messages
+        render :edit
+      end
     else
-      flash.now[:errors] = @cat.errors.full_messages
-      render :edit
+      flash[:errors] = ["you do not own this cat"]
+      redirect_to cat_url(@cat)
     end
+
+  end
+
+  def owner   
+    self.user_id = current_user.id
+    self.save! 
   end
 
   private
